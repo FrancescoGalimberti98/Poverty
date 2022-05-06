@@ -1,9 +1,5 @@
 library(readxl)
-extrafont::loadfonts("win")
 library(ggplot2)
-
-data <- read_excel("data poverty.xlsx")
-
 library(tidyverse)
 library(ggfittext)
 library(treemapify)
@@ -17,6 +13,9 @@ library(grid)
 library(ggtext)
 library(ggrepel)
 
+extrafont::loadfonts("win")
+
+data <- read_excel("data poverty.xlsx")
 data = as.data.frame(data)
 str(data)
 colnames(data) = c('stato', 'poverty')
@@ -99,4 +98,4 @@ ggplot(data2, aes(y=Vecchi, x = Giovani, color = stato)) +
   geom_hline(yintercept = mean(data2$Vecchi), col = 'grey40',lty = 2,lwd = 1) +
   geom_vline(xintercept = mean(data2$Giovani), col = 'grey40', lwd = 1, lty = 2)
 
-
+#### ALTRI GRAFICI ??? ####
