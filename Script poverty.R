@@ -98,4 +98,24 @@ ggplot(data2, aes(y=Vecchi, x = Giovani, color = stato)) +
   geom_hline(yintercept = mean(data2$Vecchi), col = 'grey40',lty = 2,lwd = 1) +
   geom_vline(xintercept = mean(data2$Giovani), col = 'grey40', lwd = 1, lty = 2)
 
+#### BARPLOT ####
+
+# NON FUNZIONA
+
+# index = order(data$poverty)
+# ord.data = data[index,]
+
+# riordino così
+
+data$stato <- factor(data$stato,levels = data$stato[order(data$poverty, decreasing = TRUE)])
+data1 = data
+
+p = ggplot(data = data1, aes(x = poverty, y = stato, fill = poverty) +
+             geom_bar(stat = "identity")
+
+      
+p = ggplot(data = data, aes(x = poverty, y = stato) +
+        geom_bar(stat = "identity",fill = 'lightgreen')
+p
+
 #### ALTRI GRAFICI ??? ####
