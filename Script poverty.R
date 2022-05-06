@@ -12,6 +12,10 @@ library(showtext)
 library(geojsonio)
 library(broom)
 library(dplyr)
+library(hrbrthemes)
+library(grid)
+library(ggtext)
+library(ggrepel)
 
 data = as.data.frame(data)
 str(data)
@@ -41,15 +45,20 @@ p + geom_treemap_text(
 
 #### MAPPA ####
 
-state_name = data$stato 
-state_name[4] = 'Czech Republic'
-spdf <- geojson_read("https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson",  what = "sp")
-index <- spdf$NAME %in% state_name
-sum(index) # 34 - UE
+# SCEGLIERE QUALI STATI TOGLIERE DALLA MAPPA (MAGARI RUSSIA E ISLANDA)
+
+# state_name = data$stato 
+# state_name[4] = 'Czech Republic'
+# spdf <- geojson_read("https://raw.githubusercontent.com/leakyMirror/map-of-europe/master/GeoJSON/europe.geojson",  what = "sp")
+# index <- spdf$NAME %in% state_name
+# sum(index) # 34 - UE
+
+
 # index_sbagliato = state_name %in% spdf$NAME  # Per controllare quali stati ho escluso
 
-spdf_fortified <- tidy(spdf[index,], region = "NAME")
 
+# spdf_fortified <- tidy(spdf[index,], region = "NAME")
+spdf_fortified <- tidy(spdf, region = "NAME")
 
 ggplot() +
   geom_polygon(data = spdf_fortified, aes( x = long, y = lat, group = group), fill="white", color="grey") +
@@ -59,10 +68,6 @@ ggplot() +
 
 spdf_fortified = spdf_fortified %>%
   left_join(. , data, by=c("id"="stato"))
-
-
-library(viridis)
-
 
 q <- ggplot() +
   geom_polygon(data = spdf_fortified, aes(fill = poverty, x = long, y = lat, group = group)) +
@@ -75,3 +80,23 @@ q <- ggplot() +
 q
 
 #### SCATTERPLOT ####
+
+# Serve dataset con 2 info, uso dataset giovani_VS_vecchi
+
+data2 <- read_excel("Poverty giovani_vecchi.xlsx")
+
+ggplot(data2, aes(y=Vecchi, x = Giovani, color = stato)) +
+  geom_point(size=3,show.legend = FALSE) + 
+  # ylim(66.5,85) +
+  geom_text_repel(aes(label = stato),show.legend = F,
+                  family = 'Montserrat',fontface = "bold",size = 3.8, min.segment.length = 3,point.padding = unit(1,"lines")) +
+  labs(y = "Vecchi", x = "Giovani",family = 'Montserrat',fontface = "bold") +
+  scale_color_viridis(begin = 0.15,end = 0.65,direction = 1,discrete = TRUE, option = "F") +
+  theme_minimal(base_size=15, base_family = 'Montserrat') +
+  theme(axis.line = element_line(color='grey85'), panel.grid.minor = element_blank(),
+        axis.title=element_text(face="bold"), legend.text = element_text(face="bold"),
+        axis.text = element_text(face="bold")) +
+  geom_hline(yintercept = mean(data2$Vecchi), col = 'grey40',lty = 2,lwd = 1) +
+  geom_vline(xintercept = mean(data2$Giovani), col = 'grey40', lwd = 1, lty = 2)
+
+
