@@ -129,13 +129,16 @@ indice = data$stato %in% stati_ricchi
 # ind.err = stati_ricchi %in% data$stato # non ho liechtenstein e islanda
 sum(indice)
 
-q = ggplot(data = data[indice,], aes(x = poverty, y = reorder(stato, poverty), fill = poverty)) +
+colori = c("#9ACD32","#9ACD32","#9ACD32","#9ACD32","#9ACD32",
+           "#7FFFD4","#9ACD32","#9ACD32","#9ACD32","#9ACD32",
+           "#9ACD32","#9ACD32","#9ACD32")
+q = ggplot(data = data[indice,], aes(x = poverty, y = reorder(stato, poverty), fill = colori)) +
   geom_bar(stat = "identity",show.legend = FALSE) +
-  labs(y = "Stato", x = "Poverty",family = 'Montserrat',fontface = "bold") +
-  scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
+  labs(y = "", x = "Percentuale di persone a rischio",family = 'Montserrat',fontface = "bold") +
+  #scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
   theme_minimal(base_size=15, base_family = 'Montserrat') +
   theme(panel.grid = element_blank(),panel.grid.major.x =element_line(color='grey85'),axis.title=element_text(face="bold"), 
-        axis.text = element_text(face="bold"))
+        axis.text = element_text(face="bold", colour = 1))
 
 q
 
