@@ -110,11 +110,11 @@ ggplot(data2, aes(y=Vecchi, x = Giovani, color = stato)) +
 data$stato <- factor(data$stato,levels = data$stato[order(data$poverty, decreasing = TRUE)])
 data1 = data
 
-p = ggplot(data = data1, aes(x = poverty, y = stato, fill = poverty) +
+p = ggplot(data = data1, aes(x = poverty, y = stato, fill = poverty)) +
              geom_bar(stat = "identity")
 
       
-p = ggplot(data = data, aes(x = poverty, y = stato) +
+p = ggplot(data = data, aes(x = poverty, y = stato)) +
         geom_bar(stat = "identity",fill = 'lightgreen')
 p
 
