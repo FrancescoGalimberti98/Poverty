@@ -13,7 +13,8 @@ library(grid)
 library(ggtext)
 library(ggrepel)
 
-extrafont::loadfonts("win")
+font_add_google('Montserrat', family = 'Montserrat')
+showtext_auto()
 
 data <- read_excel("data poverty.xlsx")
 data = as.data.frame(data)
@@ -111,11 +112,13 @@ data$stato <- factor(data$stato,levels = data$stato[order(data$poverty, decreasi
 data1 = data
 
 p = ggplot(data = data1, aes(x = poverty, y = stato, fill = poverty)) +
-             geom_bar(stat = "identity")
+  geom_bar(stat = "identity",show.legend = FALSE) +
+  labs(y = "Stato", x = "Poverty",family = 'Montserrat',fontface = "bold") +
+  scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
+  theme_minimal(base_size=15, base_family = 'Montserrat') +
+  theme(panel.grid.minor = element_blank(),axis.title=element_text(face="bold"), 
+        axis.text = element_text(face="bold"))
 
-      
-p = ggplot(data = data, aes(x = poverty, y = stato)) +
-        geom_bar(stat = "identity",fill = 'lightgreen')
 p
 
 #### ALTRI GRAFICI ??? ####
