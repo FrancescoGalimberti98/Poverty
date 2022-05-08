@@ -116,9 +116,28 @@ p = ggplot(data = data1, aes(x = poverty, y = stato, fill = poverty)) +
   labs(y = "Stato", x = "Poverty",family = 'Montserrat',fontface = "bold") +
   scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
   theme_minimal(base_size=15, base_family = 'Montserrat') +
-  theme(panel.grid.minor = element_blank(),axis.title=element_text(face="bold"), 
+  theme(panel.grid = element_blank(),panel.grid.major.x =element_line(color='grey85'),axis.title=element_text(face="bold"), 
         axis.text = element_text(face="bold"))
 
 p
+
+gdp_pc <- read_excel("GDP pro capite.xlsx")
+gdp_pc = as.data.frame(gdp_pc)
+stati_ricchi = gdp_pc[1:15,1]
+
+indice = data$stato %in% stati_ricchi
+# ind.err = stati_ricchi %in% data$stato # non ho liechtenstein e islanda
+sum(indice)
+
+q = ggplot(data = data[indice,], aes(x = poverty, y = stato, fill = poverty)) +
+  geom_bar(stat = "identity",show.legend = FALSE) +
+  labs(y = "Stato", x = "Poverty",family = 'Montserrat',fontface = "bold") +
+  scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
+  theme_minimal(base_size=15, base_family = 'Montserrat') +
+  theme(panel.grid = element_blank(),panel.grid.major.x =element_line(color='grey85'),axis.title=element_text(face="bold"), 
+        axis.text = element_text(face="bold"))
+
+q
+
 
 #### ALTRI GRAFICI ??? ####
