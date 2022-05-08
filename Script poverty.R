@@ -129,7 +129,7 @@ indice = data$stato %in% stati_ricchi
 # ind.err = stati_ricchi %in% data$stato # non ho liechtenstein e islanda
 sum(indice)
 
-q = ggplot(data = data[indice,], aes(x = poverty, y = stato, fill = poverty)) +
+q = ggplot(data = data[indice,], aes(x = poverty, y = reorder(stato, poverty), fill = poverty)) +
   geom_bar(stat = "identity",show.legend = FALSE) +
   labs(y = "Stato", x = "Poverty",family = 'Montserrat',fontface = "bold") +
   scale_fill_viridis(begin = 0.1,end = 0.9,direction = -1,discrete = FALSE, option = "F") +
